@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytic Tools — My Cybersecurity Notes</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      color: #222;
+      font-family: Georgia, serif;
+      max-width: 620px;
+      margin: 60px auto;
+      padding: 0 1.5rem;
+      line-height: 1.75;
+    }
+    .back { font-size: 0.85rem; margin-bottom: 2rem; display: block; }
+    .back a { color: #1a6fbb; text-decoration: none; }
+    .back a:hover { text-decoration: underline; }
+    .label { font-size: 0.78rem; color: #999; font-family: monospace; margin-bottom: 0.4rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.4rem; line-height: 1.25; }
+    .intro { color: #555; font-size: 0.97rem; margin-bottom: 2rem; border-bottom: 1px solid #e0e0e0; padding-bottom: 1.5rem; }
+    h2 { font-size: 1.05rem; margin-top: 2rem; margin-bottom: 0.4rem; }
+    p { margin-bottom: 1rem; color: #333; }
+    blockquote {
+      border-left: 3px solid #ccc;
+      margin: 1.5rem 0;
+      padding: 0.6rem 1rem;
+      background: #f0f0f0;
+      font-size: 0.92rem;
+      color: #555;
+    }
+    code {
+      font-family: monospace;
+      background: #eee;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.88em;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      background: #fff;
+      font-size: 0.88rem;
+    }
+    .card strong { display: block; margin-bottom: 0.2rem; color: #222; }
+    .card span { color: #666; }
+    .tip {
+      background: #fffbe6;
+      border: 1px solid #f0d070;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      color: #555;
+      margin: 1.5rem 0;
+    }
+    .tip strong { color: #333; }
+    .page-nav {
+      margin-top: 3rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    .page-nav a { color: #1a6fbb; text-decoration: none; }
+    .page-nav a:hover { text-decoration: underline; }
+    footer { margin-top: 2rem; font-size: 0.78rem; color: #bbb; }
+    @media (max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <span class="back"><a href="../">← back to home</a></span>
+  <p class="label">topic 02 · analysis tools</p>
+  <h1>Analytic Tools: Static and Dynamic Analysis</h1>
+  <p class="intro">When I first heard "static analysis" and "dynamic analysis" I assumed they were very complex. They're actually pretty logical once you break it down.</p>
+
+  <h2>What's the difference?</h2>
+  <p><strong>Static analysis</strong> looks at the code without running it. You're reading through the source code searching for things that look dangerous — passwords hardcoded, inputs that aren't checked, functions known to be risky. The program never actually executes.</p>
+  <p><strong>Dynamic analysis</strong> runs the program and watches what it does. Instead of reading the recipe, you're watching someone cook and seeing if anything goes wrong in real time.</p>
+
+  <blockquote>Static = read the code. Dynamic = run it and watch.</blockquote>
+
+  <h2>Why do we need both?</h2>
+  <p>Static analysis is fast and can scan a lot of code quickly. But it doesn't know how the program will actually behave when it runs — it can flag things that turn out to be fine, and it might miss things that only appear at runtime.</p>
+  <p>Dynamic analysis sees real behaviour. But it can only find bugs in the code paths it actually triggers. If a bug hides in a feature that wasn't tested, dynamic analysis won't catch it.</p>
+  <p>So you use both — they cover each other's blind spots.</p>
+
+  <h2>A bit of history</h2>
+  <p>Static analysis goes back to the 1970s, when compilers started catching basic coding errors automatically. At first it was just syntax — "this line doesn't make sense." Over time the tools got smarter and started understanding security-specific patterns.</p>
+  <p>Dynamic analysis came out of the need to test real behaviour. Fuzzing — basically throwing random weird input at a program to see if it crashes — became popular in the 90s and is still used constantly today.</p>
+
+  <h2>The main tool categories</h2>
+  <div class="cards">
+    <div class="card"><strong>SAST</strong><span>Static Application Security Testing. Reads your source code. Tools: SonarQube, Semgrep</span></div>
+    <div class="card"><strong>DAST</strong><span>Dynamic Application Security Testing. Tests the running app. Tools: OWASP ZAP, Burp Suite</span></div>
+    <div class="card"><strong>Fuzzing</strong><span>Sends unexpected input to find crashes. Tools: AFL, libFuzzer</span></div>
+    <div class="card"><strong>IAST</strong><span>Interactive — sits inside the running app and watches from the inside. Best of both worlds</span></div>
+  </div>
+
+  <h2>How this fits into real development</h2>
+  <p>In modern teams these tools get plugged directly into the CI/CD pipeline — every time someone pushes code, automated scans run automatically. Security checks happen in the background without anyone having to remember to do them manually.</p>
+  <p>As a developer myself, this made a lot of sense to me. Security shouldn't be something you bolt on at the end — it should be baked into the workflow from the start.</p>
+
+  <div class="tip"><strong>My takeaway:</strong> Neither tool type is better. Static analysis is your first pass while writing code. Dynamic is your check once it's running. Use both.</div>
+
+  <div class="page-nav">
+    <a href="../vulnerability/">← Vulnerabilities</a>
+    <a href="../prevent-injection/">Next: Injection Attacks →</a>
+  </div>
+  <footer>My Cybersecurity Notes · Built with GitHub Pages</footer>
+</body>
+</html>

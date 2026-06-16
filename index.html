@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Cybersecurity Notes</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      color: #222;
+      font-family: Georgia, serif;
+      max-width: 620px;
+      margin: 60px auto;
+      padding: 0 1.5rem;
+      line-height: 1.7;
+    }
+    h1 { font-size: 1.6rem; margin-bottom: 0.3rem; }
+    .subtitle { color: #666; font-size: 0.95rem; margin-bottom: 2.5rem; }
+    nav { border-top: 1px solid #ddd; padding-top: 1.5rem; }
+    nav h2 { font-size: 1rem; color: #444; margin-bottom: 1rem; font-weight: normal; }
+    nav ul { list-style: none; padding: 0; margin: 0; }
+    nav ul li { margin-bottom: 0.75rem; }
+    nav ul li a {
+      color: #1a6fbb;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    nav ul li a:hover { text-decoration: underline; }
+    nav ul li span {
+      display: block;
+      font-size: 0.82rem;
+      color: #888;
+      margin-top: 0.1rem;
+    }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: 1rem; font-size: 0.8rem; color: #aaa; }
+  </style>
+</head>
+<body>
+  <h1>My Cybersecurity Notes</h1>
+  <p class="subtitle">Here it's Val explaining a few cybersecurity concepts.</p>
+
+  <nav>
+    <h2>Topics covered so far:</h2>
+    <ul>
+      <li>
+        <a href="vulnerability/">What is a Vulnerability?</a>
+        <span>The starting point — what vulnerabilities are and why they matter</span>
+      </li>
+      <li>
+        <a href="analytic-tools/">Analytic Tools</a>
+        <span>Static vs dynamic analysis — how we find bugs before attackers do</span>
+      </li>
+      <li>
+        <a href="prevent-injection/">Preventing Injection Attacks</a>
+        <span>SQL injection, XSS and why "never trust user input" is the rule</span>
+      </li>
+      <li>
+        <a href="mitigate-csrf/">Mitigating CSRF</a>
+        <span>How your browser can be tricked into doing things you didn't ask for</span>
+      </li>
+      <li>
+        <a href="patches/">Why Patches Matter</a>
+        <span>Updating software isn't boring — it's one of the best defences we have</span>
+      </li>
+    </ul>
+  </nav>
+
+  <footer> Built with GitHub Pages</footer>
+</body>
+</html>

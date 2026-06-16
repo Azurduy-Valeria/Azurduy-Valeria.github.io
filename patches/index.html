@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Patches Matter — My Cybersecurity Notes</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      color: #222;
+      font-family: Georgia, serif;
+      max-width: 620px;
+      margin: 60px auto;
+      padding: 0 1.5rem;
+      line-height: 1.75;
+    }
+    .back { font-size: 0.85rem; margin-bottom: 2rem; display: block; }
+    .back a { color: #1a6fbb; text-decoration: none; }
+    .back a:hover { text-decoration: underline; }
+    .label { font-size: 0.78rem; color: #999; font-family: monospace; margin-bottom: 0.4rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.4rem; line-height: 1.25; }
+    .intro { color: #555; font-size: 0.97rem; margin-bottom: 2rem; border-bottom: 1px solid #e0e0e0; padding-bottom: 1.5rem; }
+    h2 { font-size: 1.05rem; margin-top: 2rem; margin-bottom: 0.4rem; }
+    p { margin-bottom: 1rem; color: #333; }
+    blockquote {
+      border-left: 3px solid #ccc;
+      margin: 1.5rem 0;
+      padding: 0.6rem 1rem;
+      background: #f0f0f0;
+      font-size: 0.92rem;
+      color: #555;
+    }
+    code {
+      font-family: monospace;
+      background: #eee;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.88em;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      background: #fff;
+      font-size: 0.88rem;
+    }
+    .card strong { display: block; margin-bottom: 0.2rem; color: #222; }
+    .card span { color: #666; }
+    .tip {
+      background: #fffbe6;
+      border: 1px solid #f0d070;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      color: #555;
+      margin: 1.5rem 0;
+    }
+    .tip strong { color: #333; }
+    .page-nav {
+      margin-top: 3rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    .page-nav a { color: #1a6fbb; text-decoration: none; }
+    .page-nav a:hover { text-decoration: underline; }
+    footer { margin-top: 2rem; font-size: 0.78rem; color: #bbb; }
+    @media (max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <span class="back"><a href="../">← back to home</a></span>
+  <p class="label">topic 05 · maintenance</p>
+  <h1>Why Patches Matter</h1>
+  <p class="intro">I used to ignore update notifications. "I'll do it later." Learning about patch management made me realise how bad of an idea that is.</p>
+
+  <h2>What is a patch?</h2>
+  <p>When a vulnerability is found in software — by the vendor, a researcher, or a bug bounty hunter — the vendor (ideally) releases a fix. That fix is a patch. It closes the weakness.</p>
+  <p>Here's the problem: the moment the patch is released, the vulnerability it fixes becomes public. Security bulletins, changelogs, CVE databases — it's all out there. Attackers read those too. They immediately start looking for systems that haven't applied the fix yet.</p>
+
+  <blockquote>The patch being released is also the announcement that the vulnerability exists. The race starts then.</blockquote>
+
+  <h2>The WannaCry example</h2>
+  <p>In May 2017, the WannaCry ransomware attack spread to over 200,000 systems in 150 countries. It exploited a Windows vulnerability — but Microsoft had already released a patch for it two months earlier. The affected systems just hadn't updated.</p>
+  <p>That's not a story about a sophisticated attack. It's a story about delayed patching. And it caused billions of dollars in damage.</p>
+
+  <h2>Patch management isn't just "click update"</h2>
+  <p>For individuals, yes, just keep things updated. But in organisations it's a process:</p>
+  <div class="cards">
+    <div class="card"><strong>Inventory</strong><span>You can't patch what you don't know exists. First, know what's running</span></div>
+    <div class="card"><strong>Prioritise</strong><span>Critical patches for actively exploited bugs go first. Others follow a schedule</span></div>
+    <div class="card"><strong>Test</strong><span>Patches can break things. Test in staging before pushing to production</span></div>
+    <div class="card"><strong>Automate</strong><span>Manual patching at scale is slow and error-prone. Automate wherever possible</span></div>
+  </div>
+
+  <h2>How it connects to everything else</h2>
+  <p>Patching is one layer in a bigger strategy. Even with good patching, you need monitoring to detect attacks, least privilege to limit damage, and regular testing to find what's still exposed. None of these replace each other — they work together.</p>
+
+  <h2>How patching is evolving</h2>
+  <p>With containers and cloud infrastructure, the model is shifting. Instead of patching a running server, you rebuild it from a clean image with the fix applied. "Replace" instead of "repair." It's faster and more reliable when done right.</p>
+  <p>But the core idea stays the same: known vulnerabilities need to be addressed quickly. That's not going to change.</p>
+
+  <div class="tip"><strong>My honest reflection:</strong> I used to dismiss updates as annoying. Now I understand that every delayed update is a window where a known vulnerability sits open. It's not about being paranoid — it's just closing doors that don't need to stay open.</div>
+
+  <div class="page-nav">
+    <a href="../mitigate-csrf/">← CSRF</a>
+    <a href="../">← Back to home</a>
+  </div>
+  <footer>My Cybersecurity Notes · Built with GitHub Pages</footer>
+</body>
+</html>

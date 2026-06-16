@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preventing Injection Attacks — My Cybersecurity Notes</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      color: #222;
+      font-family: Georgia, serif;
+      max-width: 620px;
+      margin: 60px auto;
+      padding: 0 1.5rem;
+      line-height: 1.75;
+    }
+    .back { font-size: 0.85rem; margin-bottom: 2rem; display: block; }
+    .back a { color: #1a6fbb; text-decoration: none; }
+    .back a:hover { text-decoration: underline; }
+    .label { font-size: 0.78rem; color: #999; font-family: monospace; margin-bottom: 0.4rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.4rem; line-height: 1.25; }
+    .intro { color: #555; font-size: 0.97rem; margin-bottom: 2rem; border-bottom: 1px solid #e0e0e0; padding-bottom: 1.5rem; }
+    h2 { font-size: 1.05rem; margin-top: 2rem; margin-bottom: 0.4rem; }
+    p { margin-bottom: 1rem; color: #333; }
+    blockquote {
+      border-left: 3px solid #ccc;
+      margin: 1.5rem 0;
+      padding: 0.6rem 1rem;
+      background: #f0f0f0;
+      font-size: 0.92rem;
+      color: #555;
+    }
+    code {
+      font-family: monospace;
+      background: #eee;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.88em;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      background: #fff;
+      font-size: 0.88rem;
+    }
+    .card strong { display: block; margin-bottom: 0.2rem; color: #222; }
+    .card span { color: #666; }
+    .tip {
+      background: #fffbe6;
+      border: 1px solid #f0d070;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      color: #555;
+      margin: 1.5rem 0;
+    }
+    .tip strong { color: #333; }
+    .page-nav {
+      margin-top: 3rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    .page-nav a { color: #1a6fbb; text-decoration: none; }
+    .page-nav a:hover { text-decoration: underline; }
+    footer { margin-top: 2rem; font-size: 0.78rem; color: #bbb; }
+    @media (max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <span class="back"><a href="../">← back to home</a></span>
+  <p class="label">topic 03 · injection attacks</p>
+  <h1>Preventing Injection Attacks</h1>
+  <p class="intro">Injection attacks are one of the first things they teach in web security — probably because they're still one of the most common ways things go wrong, even today.</p>
+
+  <h2>What is an injection attack?</h2>
+  <p>The idea is simple: an attacker puts malicious code into an input field (like a login form or search box), and the application runs it as if it were a valid command. The app was expecting data — it got instructions instead.</p>
+  <p>The most classic example is SQL injection. Imagine a login form that builds a database query like this:</p>
+  <p><code>SELECT * FROM users WHERE username = '[what you typed]'</code></p>
+  <p>If you type <code>admin' OR '1'='1</code>, the query becomes always true and you get in without a real password. The database just did what it was told.</p>
+
+  <blockquote>The application trusted what the user sent. That's the mistake.</blockquote>
+
+  <h2>Types of injection attacks</h2>
+  <div class="cards">
+    <div class="card"><strong>SQL Injection</strong><span>Manipulates database queries. Can expose, change or delete data</span></div>
+    <div class="card"><strong>XSS</strong><span>Injects JavaScript into a page other users see. Can steal sessions</span></div>
+    <div class="card"><strong>Command Injection</strong><span>Runs shell commands through the app if it calls the OS directly</span></div>
+    <div class="card"><strong>LDAP / XML</strong><span>Targets directory services or XML parsers with crafted input</span></div>
+  </div>
+
+  <h2>How to prevent them</h2>
+  <p><strong>Never trust user input.</strong> That's the rule. Everything that comes from outside the application — form fields, URL parameters, headers — should be treated as potentially dangerous.</p>
+  <p><strong>Parameterised queries</strong> are the main fix for SQL injection. Instead of building a query by joining strings, you tell the database the structure first and pass the data separately. The data physically cannot become part of the command.</p>
+  <p><strong>Input validation</strong> means checking that what arrives looks like what you expected — right format, right length, only the characters you allow. Reject anything that doesn't fit.</p>
+  <p><strong>Output encoding</strong> is how you stop XSS. Before showing user-supplied content on a page, encode the special characters so the browser treats them as text, not as HTML or JavaScript.</p>
+  <p><strong>Least privilege</strong> on your database user helps limit the damage if something does get through. If your app only reads data, the database account shouldn't have permission to delete tables.</p>
+
+  <div class="tip"><strong>What surprised me:</strong> injection is in OWASP's Top 10 list of web risks every single year — not because it's new or hard to understand, but because developers still make the same mistakes. The fixes are straightforward. The hard part is being consistent about applying them.</div>
+
+  <div class="page-nav">
+    <a href="../analytic-tools/">← Analytic Tools</a>
+    <a href="../mitigate-csrf/">Next: CSRF →</a>
+  </div>
+  <footer>My Cybersecurity Notes · Built with GitHub Pages</footer>
+</body>
+</html>

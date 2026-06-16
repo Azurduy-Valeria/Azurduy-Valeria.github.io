@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mitigating CSRF — My Cybersecurity Notes</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      color: #222;
+      font-family: Georgia, serif;
+      max-width: 620px;
+      margin: 60px auto;
+      padding: 0 1.5rem;
+      line-height: 1.75;
+    }
+    .back { font-size: 0.85rem; margin-bottom: 2rem; display: block; }
+    .back a { color: #1a6fbb; text-decoration: none; }
+    .back a:hover { text-decoration: underline; }
+    .label { font-size: 0.78rem; color: #999; font-family: monospace; margin-bottom: 0.4rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.4rem; line-height: 1.25; }
+    .intro { color: #555; font-size: 0.97rem; margin-bottom: 2rem; border-bottom: 1px solid #e0e0e0; padding-bottom: 1.5rem; }
+    h2 { font-size: 1.05rem; margin-top: 2rem; margin-bottom: 0.4rem; }
+    p { margin-bottom: 1rem; color: #333; }
+    blockquote {
+      border-left: 3px solid #ccc;
+      margin: 1.5rem 0;
+      padding: 0.6rem 1rem;
+      background: #f0f0f0;
+      font-size: 0.92rem;
+      color: #555;
+    }
+    code {
+      font-family: monospace;
+      background: #eee;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.88em;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      background: #fff;
+      font-size: 0.88rem;
+    }
+    .card strong { display: block; margin-bottom: 0.2rem; color: #222; }
+    .card span { color: #666; }
+    .tip {
+      background: #fffbe6;
+      border: 1px solid #f0d070;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      color: #555;
+      margin: 1.5rem 0;
+    }
+    .tip strong { color: #333; }
+    .page-nav {
+      margin-top: 3rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    .page-nav a { color: #1a6fbb; text-decoration: none; }
+    .page-nav a:hover { text-decoration: underline; }
+    footer { margin-top: 2rem; font-size: 0.78rem; color: #bbb; }
+    @media (max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <span class="back"><a href="../">← back to home</a></span>
+  <p class="label">topic 04 · web security</p>
+  <h1>Mitigating CSRF</h1>
+  <p class="intro">This one took me a moment to fully get. CSRF is sneaky because the attacker doesn't steal your password — they just use your browser while you're already logged in somewhere.</p>
+
+  <h2>What actually happens in a CSRF attack</h2>
+  <p>Say you're logged into your bank in one browser tab. In another tab, you visit a random website. That website has a hidden link or image pointing to your bank — something like a "transfer money" URL. Your browser loads it automatically. Because you're already logged in, your session cookie goes with the request. The bank sees an authenticated request and processes it.</p>
+  <p>You didn't click anything suspicious. You didn't enter a password. Your browser just did what it was asked — and your bank trusted it.</p>
+
+  <blockquote>CSRF doesn't attack you directly. It tricks your own browser into making a request on the attacker's behalf.</blockquote>
+
+  <h2>A bit of history</h2>
+  <p>CSRF was being discussed as early as 2001. For years a lot of developers didn't fully understand or take it seriously, partly because the browser sending cookies automatically with every request seemed normal — not dangerous. It took a while for defences to become standard practice in frameworks.</p>
+
+  <h2>What's at risk</h2>
+  <p>It depends on what the app can do. CSRF can cause things like: money transfers you didn't make, your email or password being changed, data being deleted, or orders being placed in your name. The scary part is you usually have no idea it happened.</p>
+
+  <h2>How to prevent it</h2>
+  <p><strong>Anti-CSRF tokens</strong> are the most common defence. The server generates a random secret value and puts it in every form. When the form is submitted, the server checks that the token matches. A malicious site on a different domain can't read or guess that token, so its fake request fails the check.</p>
+  <p><strong>SameSite cookie attribute</strong> is a simpler, browser-level defence. If you set your cookies to <code>SameSite=Strict</code> or <code>SameSite=Lax</code>, the browser won't send them when the request comes from another site. Modern browsers support this well and it's now considered the first line of defence.</p>
+  <p><strong>Checking the Origin or Referer header</strong> lets the server see where a request came from. If it's not your own domain, reject it.</p>
+  <p><strong>Re-authentication for sensitive actions</strong> — for things like changing a password or sending money, ask the user to confirm again. Even if CSRF fires, the attacker can't complete the action.</p>
+
+  <div class="tip"><strong>What I learned here:</strong> the fix is not complicated — anti-CSRF tokens plus SameSite cookies covers most cases. The bigger lesson is that browsers send cookies automatically with every request, which feels helpful until you realise it can be exploited. You have to opt in to protection.</div>
+
+  <div class="page-nav">
+    <a href="../prevent-injection/">← Injection Attacks</a>
+    <a href="../patches/">Next: Patches →</a>
+  </div>
+  <footer>My Cybersecurity Notes · Built with GitHub Pages</footer>
+</body>
+</html>
